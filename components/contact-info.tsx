@@ -1,9 +1,13 @@
 import Link from "next/link"
+import BackgroundVideo from "@/components/BackgroundVideo"
 
 export function ContactInfo() {
   return (
-    <div className="space-y-6">
+    <div className="relative w-full h-full">
+      <BackgroundVideo />
+      <div className="relative z-10 space-y-6">
       <div>
+
         <h1 className="text-4xl font-bold text-white mb-6">Contáctanos</h1>
         <p className="text-gray-300 mb-2">
           Email, llamada o completa el formulario si quieres obtener información más detallada.
@@ -29,6 +33,7 @@ export function ContactInfo() {
         >
           Atención al cliente
         </Link>
+      </div>
       </div>
     </div>
   )

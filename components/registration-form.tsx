@@ -17,6 +17,7 @@ export function RegistrationForm() {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const [phone, setPhone] = useState("") // Añadido estado para el teléfono
+  const [countryCode, setCountryCode] = useState("+58") // Añadido estado para el código de país
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [acceptTerms, setAcceptTerms] = useState(false)
@@ -52,9 +53,10 @@ export function RegistrationForm() {
         },
         body: JSON.stringify({
           username,
-          email,
+          email, // Cambiado a minLength y maxLength según el esquema
+          // email: email.toLowerCase(), // Opcional: convertir email a minúsculas
           password,
-          phone: phone || null, // Envía null si el teléfono está vacío
+          phone: phone ? `${countryCode}${phone}` : null, // Combina código de país y número, envía null si no hay número
         }),
       })
 
@@ -152,14 +154,30 @@ export function RegistrationForm() {
             </button>
           </div>
 
-          <div>
+          {/* Campo para Teléfono (opcional) con selector de código de país */}
+          <div className="flex items-center space-x-2"> {/* Usar flexbox para alinear */}
+            <div className="flex-shrink-0"> {/* Evita que el select se comprima */}
+              <select
+                value={countryCode}
+                onChange={(e) => setCountryCode(e.target.value)}
+                className="px-2 py-3 rounded-md bg-black/30 border border-secondary-color text-white focus:outline-none focus:ring-2 focus:ring-secondary-color focus:border-transparent w-min" // Clase w-min para tamaño mínimo
+              >
+                <option value="+58">+58</option>
+                <option value="+1">+1</option>
+                <option value="+34">+34</option>
+                <option value="+52">+52</option>
+                {/* Puedes añadir más opciones de códigos de país aquí */}
+              </select>
+            </div>
+            
             <input
-              type="text"
+              className="flex-1 px-4 py-3 rounded-md bg-black/30 border border-secondary-color text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary-color focus:border-transparent" // flex-1 para ocupar espacio restante
+              type="text" // Mantengo el tipo text para poder incluir el código si se desea concatenar
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder="Teléfono (opcional)"
-              className="w-full px-4 py-3 rounded-md bg-black/30 border border-secondary-color text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary-color focus:border-transparent"
-            />
+              className="flex-1 px-4 py-3 rounded-md bg-black/30 border border-secondary-color text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary-color focus:border-transparent"
+            /> 
           </div>
 
           <div className="flex items-start">
