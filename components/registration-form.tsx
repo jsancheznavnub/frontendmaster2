@@ -3,10 +3,12 @@
 import type React from "react" // Buena práctica importar React explícitamente si se usa 'React.FormEvent'
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+
 import { Eye, EyeOff } from "lucide-react" // Removí Github ya que no se usa en este componente
 // import { FcGoogle } from "react-icons/fc" // Removí FcGoogle ya que no se usa en este componente
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useToast } from "@/components/ui/use-toast"
 import BackgroundVideo from "./BackgroundVideo"
 
 export function RegistrationForm() {
@@ -14,13 +16,16 @@ export function RegistrationForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [phone, setPhone] = useState("") // Añadido estado para el teléfono
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [acceptTerms, setAcceptTerms] = useState(false)
+  const [isLoading, setIsLoading] = useState(false) // Estado para deshabilitar el botón durante la carga
 
   const router = useRouter()
+  const { toast } = useToast() // Hook para mostrar notificaciones
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Aquí iría la lógica para procesar el registro
     // Por ejemplo, validaciones adicionales:
@@ -34,9 +39,47 @@ export function RegistrationForm() {
       // Aquí podrías establecer un estado de error
       return;
     }
-    console.log("Registro con:", username, email, password, acceptTerms) // confirmPassword no es necesario enviarlo si ya se validó
-    // Redirigir a la página de fremium
-    router.push("/fremium")
+
+    setIsLoading(true) // Inicia el estado de carga
+
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL; // Fallback a localhost si la variable no está definida
+      const signupEndpoint = `${apiUrl}/v1/users/signup`;
+      const response = await fetch(signupEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          phone: phone || null, // Envía null si el teléfono está vacío
+        }),
+      })
+
+      if (!response.ok) { 
+        const errorData = await response.json()
+        throw new Error(errorData.detail || "Error en el registro")
+      }
+
+      // Registro exitoso
+      toast({
+        title: "Registro exitoso",
+        description: "Tu cuenta ha sido creada. ¡Bienvenido!",
+        variant: "default",
+      })
+      router.push("/fremium") // Redirigir a la página de fremium
+
+    } catch (error: any) {
+      toast({
+        title: "Error de registro",
+        description: error.message || "Ocurrió un error desconocido al registrarte.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false) // Finaliza el estado de carga
+    }
   }
 
   return (
@@ -51,7 +94,7 @@ export function RegistrationForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <input
-              type="text" // Corregido: removidas las barras invertidas
+              type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Nombre de usuario"
@@ -109,6 +152,16 @@ export function RegistrationForm() {
             </button>
           </div>
 
+          <div>
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Teléfono (opcional)"
+              className="w-full px-4 py-3 rounded-md bg-black/30 border border-secondary-color text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary-color focus:border-transparent"
+            />
+          </div>
+
           <div className="flex items-start">
             <div className="flex items-center h-5">
               <input
@@ -127,7 +180,8 @@ export function RegistrationForm() {
 
           <button
             type="submit"
-            className="w-full bg-[#1a8585] text-white font-medium py-3 rounded-md shadow-md hover:bg-[#1a8585]/90 transition-colors"
+            className="w-full bg-[#1a8585] text-white font-medium py-3 rounded-md shadow-md hover:bg-[#1a8585]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isLoading} // Deshabilita el botón durante la carga
           >
             Regístrate
           </button>
