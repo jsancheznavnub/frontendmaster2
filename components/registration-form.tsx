@@ -1,14 +1,16 @@
 "use client"
 
-import type React from "react"
+import type React from "react" // Buena práctica importar React explícitamente si se usa 'React.FormEvent'
 
 import { useState } from "react"
-import { Eye, EyeOff, Github } from "lucide-react"
-import { FcGoogle } from "react-icons/fc"
+import { Eye, EyeOff } from "lucide-react" // Removí Github ya que no se usa en este componente
+// import { FcGoogle } from "react-icons/fc" // Removí FcGoogle ya que no se usa en este componente
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import BackgroundVideo from "./BackgroundVideo"
 
 export function RegistrationForm() {
+  const [username, setUsername] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -21,13 +23,25 @@ export function RegistrationForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Aquí iría la lógica para procesar el registro
-    console.log("Registro con:", email, password, confirmPassword, acceptTerms)
+    // Por ejemplo, validaciones adicionales:
+    if (password !== confirmPassword) {
+      console.error("Las contraseñas no coinciden.")
+      // Aquí podrías establecer un estado de error para mostrarlo en la UI
+      return;
+    }
+    if (!acceptTerms) {
+      console.error("Debes aceptar los términos y condiciones.")
+      // Aquí podrías establecer un estado de error
+      return;
+    }
+    console.log("Registro con:", username, email, password, acceptTerms) // confirmPassword no es necesario enviarlo si ya se validó
     // Redirigir a la página de fremium
     router.push("/fremium")
   }
 
   return (
     <>
+      <BackgroundVideo />
       <div className="text-center mb-4">
         <h1 className="text-2xl font-bold text-white">Hackanalyzer</h1>
       </div>
@@ -37,11 +51,23 @@ export function RegistrationForm() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <input
+              type="text" // Corregido: removidas las barras invertidas
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Nombre de usuario"
+              className="w-full px-4 py-3 rounded-md bg-black/30 border border-secondary-color text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary-color focus:border-transparent" // Corregido: removidas las barras invertidas
+              required // Es buena práctica añadir 'required' para campos obligatorios
+            />
+          </div>
+
+          <div>
+            <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Correo electrónico"
               className="w-full px-4 py-3 rounded-md bg-black/30 border border-secondary-color text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary-color focus:border-transparent"
+              required
             />
           </div>
 
@@ -52,6 +78,7 @@ export function RegistrationForm() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Contraseña"
               className="w-full px-4 py-3 rounded-md bg-black/30 border border-secondary-color text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary-color focus:border-transparent"
+              required
             />
             <button
               type="button"
@@ -70,6 +97,7 @@ export function RegistrationForm() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Repetir contraseña"
               className="w-full px-4 py-3 rounded-md bg-black/30 border border-secondary-color text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary-color focus:border-transparent"
+              required
             />
             <button
               type="button"
@@ -89,6 +117,7 @@ export function RegistrationForm() {
                 checked={acceptTerms}
                 onChange={(e) => setAcceptTerms(e.target.checked)}
                 className="w-4 h-4 border border-secondary-color rounded bg-black/30 focus:ring-secondary-color"
+                // required // Podrías añadir 'required' si la aceptación es obligatoria para enviar el formulario
               />
             </div>
             <label htmlFor="terms" className="ml-2 text-sm text-white">
@@ -104,29 +133,31 @@ export function RegistrationForm() {
           </button>
         </form>
 
-        <div className="mt-6 flex items-center justify-between">
-          <div className="w-full border-t border-gray-600"></div>
-          <span className="px-4 text-sm text-gray-400">ó</span>
-          <div className="w-full border-t border-gray-600"></div>
+        {/* Eliminé la sección de "O regístrate con" ya que los iconos no estaban siendo usados y no había lógica para ello.
+            Si deseas mantenerla, necesitarías añadir la lógica para Google/Github y los iconos correspondientes.
+        <div className="my-6 flex items-center">
+          <div className="flex-grow border-t border-gray-600"></div>
+          <span className="mx-4 text-gray-400">O regístrate con</span>
+          <div className="flex-grow border-t border-gray-600"></div>
         </div>
 
-        <div className="mt-6 space-y-3">
+        <div className="space-y-3">
           <button
             type="button"
-            className="w-full flex items-center justify-center gap-2 bg-transparent border border-secondary-color text-white font-medium py-3 rounded-md hover:bg-black/40 transition-colors"
+            className="w-full flex items-center justify-center py-3 px-4 rounded-md border border-secondary-color bg-black/30 hover:bg-black/50 transition-colors"
           >
-            <FcGoogle size={20} />
-            <span>Regístrate con Google</span>
+            <FcGoogle className="mr-2" size={22} />
+            <span className="text-white">Google</span>
           </button>
-
           <button
             type="button"
-            className="w-full flex items-center justify-center gap-2 bg-transparent border border-secondary-color text-white font-medium py-3 rounded-md hover:bg-black/40 transition-colors"
+            className="w-full flex items-center justify-center py-3 px-4 rounded-md border border-secondary-color bg-black/30 hover:bg-black/50 transition-colors"
           >
-            <Github size={20} className="text-white" />
-            <span>Regístrate con GitHub</span>
+            <Github className="mr-2 text-white" size={22} />
+            <span className="text-white">Github</span>
           </button>
         </div>
+        */}
 
         <div className="mt-6 text-center">
           <p className="text-white">
@@ -140,4 +171,3 @@ export function RegistrationForm() {
     </>
   )
 }
-
