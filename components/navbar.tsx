@@ -16,7 +16,7 @@ export function Navbar() {
       <div className="max-w-6xl mx-auto">
         <div className="flex items-center justify-between border border-secondary-color rounded-lg bg-black/20 backdrop-blur-sm px-6 py-3">
           <Link href="/" className="text-2xl font-bold text-white whitespace-nowrap flex-shrink-0">
-            HACKANALYZER
+            Hackanalyzer
           </Link>
 
           {/* Hamburger menu for mobile */}
@@ -38,7 +38,7 @@ export function Navbar() {
                   href="/que-es"
                   className="text-secondary-color hover:text-white transition-colors mx-4 whitespace-nowrap"
                 >
-                  ¿Qué es HackAnalyzer?
+                  ¿Qué es Hackanalyzer?
                 </Link>
                 <Link
                   href="/por-que"
@@ -82,7 +82,7 @@ export function Navbar() {
                   className="text-secondary-color hover:text-white transition-colors py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  ¿Qué es HackAnalyzer?
+                  ¿Qué es Hackanalyzer?
                 </Link>
                 <Link
                   href="/por-que"

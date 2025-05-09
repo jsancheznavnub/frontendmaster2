@@ -11,15 +11,15 @@ export function ContactInfo() {
         <p className="text-gray-300">
           Resuelve con{" "}
           <Link href="/" className="text-secondary-color hover:underline">
-            HackAnalyzer
+            Hackanalyzer
           </Link>
           , lo que otros no pueden
         </p>
       </div>
 
       <div className="space-y-2">
-        <p className="text-white">info@hackanalyzer.com</p>
-        <p className="text-white">+56 123 456 7890</p>
+        <p className="text-white">services@navnub.com</p>
+        <p className="text-white">+58 412 392 0397</p>
       </div>
 
       <div>

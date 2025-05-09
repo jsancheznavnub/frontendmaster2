@@ -12,7 +12,7 @@ export function ContactForm() {
     phone: "",
     message: "",
   })
-  const [countryCode, setCountryCode] = useState("+56")
+  const [countryCode, setCountryCode] = useState("+58")
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

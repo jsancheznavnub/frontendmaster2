@@ -130,7 +130,7 @@ export function FremiumDashboard() {
     <div className="space-y-6">
       <div className="rounded-lg border border-secondary-color bg-[#006F6F] backdrop-blur-sm p-8 shadow-[0_0_15px_rgba(1,223,223,0.3)]">
         <h2 className="text-2xl font-bold text-white text-center mb-4">
-          ¡Bienvenido a la versión Fremium de HackAnalyzer!
+          ¡Bienvenido a la versión Fremium de Hackanalyzer!
         </h2>
         <p className="text-white text-center mb-6">
           Ahora tienes acceso a información más detallada sobre las vulnerabilidades de tu sitio web y recomendaciones

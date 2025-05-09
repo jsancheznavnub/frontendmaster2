@@ -29,7 +29,7 @@ export function RegistrationForm() {
   return (
     <>
       <div className="text-center mb-4">
-        <h1 className="text-2xl font-bold text-white">HACKANALYZER</h1>
+        <h1 className="text-2xl font-bold text-white">Hackanalyzer</h1>
       </div>
 
       <div className="rounded-lg border border-secondary-color bg-black/30 backdrop-blur-sm p-8 shadow-[0_0_15px_rgba(1,223,223,0.3)]">
@@ -92,7 +92,7 @@ export function RegistrationForm() {
               />
             </div>
             <label htmlFor="terms" className="ml-2 text-sm text-white">
-              Acepto los <span className="text-white font-medium">Términos y Condiciones de HackAnalyzer</span>
+              Acepto los <span className="text-white font-medium">Términos y Condiciones de Hackanalyzer</span>
             </label>
           </div>
 

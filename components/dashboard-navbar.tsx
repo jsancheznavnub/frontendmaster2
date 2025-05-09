@@ -28,7 +28,7 @@ export function DashboardNavbar() {
         <div className="flex items-center justify-between border border-secondary-color rounded-lg bg-[#004F4F80] backdrop-blur-sm px-6 py-3">
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold text-white whitespace-nowrap flex-shrink-0 mr-6">
-              HACKANALYZER
+              Hackanalyzer
             </Link>
 
             {/* Search form - visible only on desktop */}
@@ -62,7 +62,7 @@ export function DashboardNavbar() {
           {/* Desktop navigation */}
           <nav className="hidden md:flex items-center space-x-6">
             <Link href="/que-es" className="text-secondary-color hover:text-white transition-colors whitespace-nowrap">
-              ¿Qué es HackAnalyzer?
+              ¿Qué es Hackanalyzer?
             </Link>
             <Link href="/por-que" className="text-secondary-color hover:text-white transition-colors whitespace-nowrap">
               ¿Por qué es importante?
@@ -114,7 +114,7 @@ export function DashboardNavbar() {
                   className="text-secondary-color hover:text-white transition-colors py-2"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  ¿Qué es HackAnalyzer?
+                  ¿Qué es Hackanalyzer?
                 </Link>
                 <Link
                   href="/por-que"
